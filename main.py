@@ -2,6 +2,7 @@ import os
 
 from PIL import Image, ImageDraw
 
+from rocket import Rocket
 from ship import Spaceship
 from star import Star
 
@@ -18,6 +19,8 @@ def save_gif(frames_dir, output_dir, gif_name, fps=30, exclude=False):
         key=lambda f: int(f.split('.')[0])
     )
     frames = [Image.open(os.path.join(frames_dir, name)) for name in file_list]
+
+    print(output_dir)
     frames[0].save(
         os.path.join(output_dir, gif_name),
         save_all=True,
@@ -83,13 +86,18 @@ def main(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     stars = [Star.create_random_star(x_max=WIDTH, y_max=HEIGHT, color="white") for _ in range(NUM_STARS)]
-    ship = Spaceship(WIDTH//2, HEIGHT, 40, 60, 7)
+    ship = Spaceship('ShipV1', WIDTH//2, HEIGHT, 40, 60, 7)
+    rocket = Rocket('RocketV1',  WIDTH//2, HEIGHT, 40, 60, 7, 1, color=(71,138,255))
 
-    frames = generate_animation(ship, stars)
+    frames = generate_animation(rocket, stars)
 
     [img.save(os.path.join(OUTPUT_DIR, f"{idx}.png")) for idx, img in enumerate(frames)]
 
-    save_gif(OUTPUT_DIR, "runs/gifs", "universe_with_ship.gif", exclude=True)
+    file_name = f'{rocket.name}-v2.gif'
+
+    gif_path = os.path.join('runs', 'gifs')
+
+    save_gif(OUTPUT_DIR, gif_path, file_name, exclude=True)
 
 
 if __name__ == "__main__":

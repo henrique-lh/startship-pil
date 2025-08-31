@@ -1,11 +1,16 @@
+PINK_COLOR = (246, 71, 255)
+
+
 class Spaceship:
 
-    def __init__(self, x, y, width, height, speed):
+    def __init__(self, name, x, y, width, height, speed, color=PINK_COLOR):
+        self.name = name
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.speed = speed
+        self.color = color
 
         self.idle_direction = 1
         self.idle_factor = 0.5
@@ -19,7 +24,7 @@ class Spaceship:
         bottom_right_y = self.y + self.height // 2
         drawer.rectangle(
             (top_left_x, top_left_y, bottom_right_x, bottom_right_y),
-            fill=(246, 71, 255)
+            fill=self.color
         )
 
     @staticmethod
